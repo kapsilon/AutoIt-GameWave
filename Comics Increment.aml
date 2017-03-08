@@ -1,0 +1,91 @@
+<AMTASK>
+<AMTASKHEAD>
+    <TASKINFO TASKVERSION="10.7.0.3" />
+</AMTASKHEAD>
+
+<AMFUNCTION NAME="Main" ACCESS="private">
+<!-- Ввод -->
+<AMVARIABLE NAME="ExistedTitleAndNumber" VALUE="" TYPE="text" />
+<AMCLIPBOARD ACTIVITY="get" RESULTVARIABLE="ExistedTitleAndNumber" />
+<!-- Разбираем данные -->
+<!-- AMREGION="Parsing text" LENGTH="8" COLLAPSE="no" -->
+<AMVARIABLE NAME="HashtagPosition" VALUE="" TYPE="number" />
+<AMVARIABLE NAME="ExistedTitle" VALUE="" TYPE="text" />
+<AMVARIABLE NAME="ExistedNumber" VALUE="" TYPE="text" />
+<AMTEXT TEXT="%ExistedTitleAndNumber%" FIND="#" RESULTVARIABLE="HashtagPosition" />
+<AMIF EXPRESSION="%HashtagPosition% &gt; 0">
+   <AMTEXT ACTIVITY="get_substring" TEXT="%ExistedTitleAndNumber%" RESULTVARIABLE="ExistedTitle" STARTPOSITION="1" LENGTH="%HashtagPosition - 2%" />
+   <AMTEXT ACTIVITY="get_substring" TEXT="%ExistedTitleAndNumber%" RESULTVARIABLE="ExistedNumber" STARTPOSITION="%HashtagPosition + 1%" />
+</AMIF>
+<!-- Для переводов
+ -->
+<!-- AMREGION="RusTranslation" LENGTH="7" COLLAPSE="no" -->
+<AMVARIABLE NAME="RusPosition" VALUE="" TYPE="number" />
+<AMVARIABLE NAME="Appendix" VALUE="" TYPE="text" />
+<AMTEXT TEXT="%ExistedNumber%" FIND="rus" RESULTVARIABLE="RusPosition" />
+<AMIF EXPRESSION="%RusPosition% &gt; 0">
+   <AMTEXT ACTIVITY="get_substring" TEXT=" %ExistedNumber%" RESULTVARIABLE="Appendix" STARTPOSITION="%RusPosition%" />
+   <AMTEXT ACTIVITY="get_substring" TEXT="%ExistedNumber%" RESULTVARIABLE="ExistedNumber" STARTPOSITION="1" LENGTH="%RusPosition - 2%" />
+</AMIF>
+<!-- Для диапазонов -->
+<!-- AMREGION="Ranging" LENGTH="11" COLLAPSE="no" -->
+<AMVARIABLE NAME="Prefix" VALUE="" TYPE="text" />
+<AMVARIABLE NAME="Postfix" VALUE="" TYPE="text" />
+<AMVARIABLE NAME="RangingPosition" VALUE="" TYPE="number" />
+<AMIF EXPRESSION="%Len(ExistedNumber)% &gt; 5">
+   <AMTEXT TEXT="%ExistedNumber%" FIND="-" RESULTVARIABLE="RangingPosition" />
+   <AMTEXT ACTIVITY="get_substring" TEXT="%ExistedNumber%" RESULTVARIABLE="Prefix" STARTPOSITION="1" LENGTH="%RangingPosition - 1%" />
+   <AMVARIABLE ACTIVITY="set" VARIABLENAME="Prefix">%Prefix%-</AMVARIABLE>
+   <AMTEXT ACTIVITY="get_substring" TEXT="%ExistedNumber%" RESULTVARIABLE="ExistedNumber" STARTPOSITION="%RangingPosition + 1%" />
+   <AMTEXT ACTIVITY="trim" TEXT="%ExistedNumber%" RESULTVARIABLE="ExistedNumber" ACTION="remove_end" REMOVE="user" CHARACTERS="*" />
+   <AMVARIABLE ACTIVITY="set" VARIABLENAME="Postfix" VALUE="*" />
+</AMIF>
+<!-- Специальные случаи -->
+<!-- Главная функция -->
+<!-- AMREGION="Incrementing Number" LENGTH="2" COLLAPSE="no" -->
+<AMVARIABLE NAME="NewNumber">%ExistedNumber%</AMVARIABLE>
+<AMVARIABLE ACTIVITY="increment" RESULTVARIABLE="NewNumber" />
+<!-- Вывод -->
+<AMVARIABLE NAME="NewTitleAndNumber">%ExistedTitle% #%Prefix &amp; NewNumber &amp; Postfix &amp; Appendix%</AMVARIABLE>
+<AMCLIPBOARD ACTIVITY="set">%NewTitleAndNumber%</AMCLIPBOARD>
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepStart" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is starting the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to execute" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepEnd" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is ending the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to end" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepError" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function with the error" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number of the error" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskFailure" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function causing the task failure" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number causing the task failure" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskStart" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is starting" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskEnd" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is ending" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+</AMTASK>
