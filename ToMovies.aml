@@ -1,14 +1,10 @@
 <AMTASK>
 <AMTASKHEAD>
-    <TASKINFO TASKVERSION="10.6.0.3" />
+    <TASKINFO TASKVERSION="10.7.0.3" />
 </AMTASKHEAD>
 
 <AMFUNCTION NAME="Main" ACCESS="private">
-<AMVARIABLE NAME="WordsForSearch" VALUE="" />
-<AMCLIPBOARD ACTIVITY="clear" />
-<AMCLIPBOARD ACTIVITY="copy" />
-<AMCLIPBOARD ACTIVITY="get" RESULTVARIABLE="WordsForSearch" />
-<AMBROWSER URL="https://www.google.ru/search?q=&quot;%WordsForSearch%&quot;" BROWSER="chrome" />
+<AMBROWSER URL="http://www.kinopoisk.ru/premiere/ru/" BROWSER="chrome" />
 </AMFUNCTION>
 
 <AMFUNCTION NAME="OnStepStart" ACCESS="private">

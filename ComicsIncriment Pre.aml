@@ -1,14 +1,15 @@
 <AMTASK>
 <AMTASKHEAD>
-    <TASKINFO TASKVERSION="10.6.0.3" />
+    <TASKINFO TASKVERSION="10.7.0.3" />
 </AMTASKHEAD>
 
 <AMFUNCTION NAME="Main" ACCESS="private">
-<AMVARIABLE NAME="WordsForSearch" VALUE="" />
-<AMCLIPBOARD ACTIVITY="clear" />
+<!-- Включаем переименовывание -->
+<AMINPUT KEYSTROKES="{F2}" />
 <AMCLIPBOARD ACTIVITY="copy" />
-<AMCLIPBOARD ACTIVITY="get" RESULTVARIABLE="WordsForSearch" />
-<AMBROWSER URL="https://www.google.ru/search?q=&quot;%WordsForSearch%&quot;" BROWSER="chrome" />
+<AMINPUT KEYSTROKES="{ESC}" />
+<!-- Выполняем главную функцию -->
+<AMTASK MANAGEDTASK="ComicsIncrement" TASKID="{75F6B457-9682-4BB3-ADF5-4EE5569F7B4A}" />
 </AMFUNCTION>
 
 <AMFUNCTION NAME="OnStepStart" ACCESS="private">

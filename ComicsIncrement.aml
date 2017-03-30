@@ -8,14 +8,16 @@
 <AMVARIABLE NAME="ExistedTitleAndNumber" VALUE="" TYPE="text" />
 <AMCLIPBOARD ACTIVITY="get" RESULTVARIABLE="ExistedTitleAndNumber" />
 <!-- Разбираем данные -->
-<!-- AMREGION="Parsing text" LENGTH="8" COLLAPSE="no" -->
+<!-- AMREGION="Parsing text" LENGTH="10" COLLAPSE="no" -->
 <AMVARIABLE NAME="HashtagPosition" VALUE="" TYPE="number" />
 <AMVARIABLE NAME="ExistedTitle" VALUE="" TYPE="text" />
-<AMVARIABLE NAME="ExistedNumber" VALUE="" TYPE="text" />
+<AMVARIABLE NAME="ExistedNumber" VALUE="" />
 <AMTEXT TEXT="%ExistedTitleAndNumber%" FIND="#" RESULTVARIABLE="HashtagPosition" />
 <AMIF EXPRESSION="%HashtagPosition% &gt; 0">
    <AMTEXT ACTIVITY="get_substring" TEXT="%ExistedTitleAndNumber%" RESULTVARIABLE="ExistedTitle" STARTPOSITION="1" LENGTH="%HashtagPosition - 2%" />
-   <AMTEXT ACTIVITY="get_substring" TEXT="%ExistedTitleAndNumber%" RESULTVARIABLE="ExistedNumber" STARTPOSITION="%HashtagPosition + 1%" />
+   <AMTEXT ACTIVITY="get_substring" TEXT="%ExistedTitleAndNumber%_" RESULTVARIABLE="ExistedNumber" STARTPOSITION="%HashtagPosition + 1%" />
+<!-- Исправляем ошибку -->
+   <AMTEXT ACTIVITY="trim" TEXT="%ExistedNumber%" RESULTVARIABLE="ExistedNumber" ACTION="remove_end" REMOVE="user" CHARACTERS="_" />
 </AMIF>
 <!-- Для переводов
  -->
@@ -32,8 +34,8 @@
 <AMVARIABLE NAME="Prefix" VALUE="" TYPE="text" />
 <AMVARIABLE NAME="Postfix" VALUE="" TYPE="text" />
 <AMVARIABLE NAME="RangingPosition" VALUE="" TYPE="number" />
-<AMIF EXPRESSION="%Len(ExistedNumber)% &gt; 5">
-   <AMTEXT TEXT="%ExistedNumber%" FIND="-" RESULTVARIABLE="RangingPosition" />
+<AMTEXT TEXT="%ExistedNumber%" FIND="-" RESULTVARIABLE="RangingPosition" />
+<AMIF EXPRESSION="%RangingPosition% &gt; 0">
    <AMTEXT ACTIVITY="get_substring" TEXT="%ExistedNumber%" RESULTVARIABLE="Prefix" STARTPOSITION="1" LENGTH="%RangingPosition - 1%" />
    <AMVARIABLE ACTIVITY="set" VARIABLENAME="Prefix">%Prefix%-</AMVARIABLE>
    <AMTEXT ACTIVITY="get_substring" TEXT="%ExistedNumber%" RESULTVARIABLE="ExistedNumber" STARTPOSITION="%RangingPosition + 1%" />
