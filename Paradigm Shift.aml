@@ -1,0 +1,87 @@
+<AMTASK>
+<AMTASKHEAD>
+    <TASKINFO TASKVERSION="10.7.0.3" />
+</AMTASKHEAD>
+
+<AMFUNCTION NAME="Main" ACCESS="private">
+<AMVARIABLE NAME="ShiftReturn" VALUE="" />
+<AMSHOWDIALOG ACTIVITY="select" RESULTVARIABLE="ShiftReturn" LISTTYPE="list" ITEMS="Загрузки,Сериалы,Комиксы,Манга,Знакомства" VALUES="Download,Series,Comics,Manga,Dating" INDEXSELECTED="1" WINDOWTITLE="Смена Парадигмы" />
+<AMSELECTCASE EXPRESSION="%ShiftReturn%">
+   <AMCASE CONSTANT="Download">
+      <AMRUN FILE="G:\Download" />
+   <!-- AMREGION="Browse in Chrome" LENGTH="8" COLLAPSE="no" -->
+   <AMBROWSER URL="http://baibako.tv/browse.php" BROWSER="chrome" />
+   <AMBROWSER URL="http://newstudio.tv/" BROWSER="chrome" />
+   <AMBROWSER URL="http://www.lostfilm.tv/" BROWSER="chrome" />
+   <AMBROWSER URL="https://vk.com/public107303739" BROWSER="chrome" />
+   <AMBROWSER URL="https://comicsdb.ru/" BROWSER="chrome" />
+   <AMBROWSER URL="http://animanga.ru/" BROWSER="chrome" />
+   <AMBROWSER URL="http://rikudou.ru/" BROWSER="chrome" />
+   <AMBROWSER URL="http://mangachan.me/user/kapsilon/newest" BROWSER="chrome" />
+   </AMCASE>
+   <AMCASE CONSTANT="Series">
+      <AMRUN FILE="D:\ОмниСериалы" />
+      <AMRUN FILE="G:\Torrent" />
+      <AMRUN FILE="C:\Program Files\MPC-HC\mpc-hc64.exe" />
+      <AMRUN FILE="C:\Program Files (x86)\Unified Remote\RemoteServerWin.exe" />
+   </AMCASE>
+   <AMCASE CONSTANT="Comics">
+      <AMRUN FILE="G:\Comics" />
+      <AMRUN FILE="K:\Комиксы" />
+      <AMRUN FILE="G:\Comics\1212.txt" />
+      <AMRUN FILE="C:\Program Files\CDisplayEx\CDisplayEx.exe" />
+      <AMRUN FILE="C:\Program Files (x86)\Google\Chrome\Application\chrome.exe --profile-directory=Default --app-id=cbbipihhaanmdjaclfmpjfnnecifpjdn --window-size=&quot;800x600&quot;" />
+   </AMCASE>
+   <AMCASE CONSTANT="Manga">
+      <AMRUN FILE="K:\Манга" />
+      <AMRUN FILE="G:\Download" />
+      <AMRUN FILE="C:\Program Files (x86)\Total Commander\TOTALCMD64.EXE" />
+   </AMCASE>
+   <AMCASE CONSTANT="Dating">
+      <AMRUN FILE="%windir%\explorer.exe shell:Appsfolder\Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge" />
+      <AMTASK MANAGEDTASK="DatingDialog" TASKID="{3FF675A7-48E7-40C9-AFE8-856976995F18}" />
+   </AMCASE>
+   <AMCASE>
+   </AMCASE>
+</AMSELECTCASE>
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepStart" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is starting the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to execute" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepEnd" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is ending the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to end" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepError" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function with the error" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number of the error" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskFailure" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function causing the task failure" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number causing the task failure" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskStart" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is starting" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskEnd" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is ending" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+</AMTASK>

@@ -43,7 +43,20 @@
    <AMVARIABLE ACTIVITY="set" VARIABLENAME="Postfix" VALUE="*" />
 </AMIF>
 <!-- Специальные случаи -->
-<!-- Главная функция -->
+<!-- AMREGION="Zeroes" LENGTH="5" COLLAPSE="no" -->
+<AMVARIABLE NAME="ZeroesPosition" VALUE="" TYPE="number" />
+<AMTEXT TEXT="%ExistedTitleAndNumber%" FIND="#0" RESULTVARIABLE="ZeroesPosition" />
+<AMIF EXPRESSION="ZeroesPosition &gt; 0 AND  NOT (ExistedNumber = 9)" USECOMPLEXUI="YES">
+   <AMVARIABLE ACTIVITY="set" VARIABLENAME="Prefix">0%Prefix%</AMVARIABLE>
+</AMIF>
+<!-- AMREGION="ZeroRange" LENGTH="6" COLLAPSE="no" -->
+<AMVARIABLE NAME="ZeroRangePosition" VALUE="" TYPE="number" />
+<AMTEXT TEXT="%ExistedTitleAndNumber%" FIND="#1*" RESULTVARIABLE="ZeroRangePosition" />
+<AMIF EXPRESSION="%ZeroRangePosition% &gt; 0">
+   <AMVARIABLE ACTIVITY="set" VARIABLENAME="ExistedNumber" VALUE="0" />
+   <AMVARIABLE ACTIVITY="set" VARIABLENAME="Postfix" VALUE="-2*" />
+</AMIF>
+   <!-- Главная функция -->
 <!-- AMREGION="Incrementing Number" LENGTH="2" COLLAPSE="no" -->
 <AMVARIABLE NAME="NewNumber">%ExistedNumber%</AMVARIABLE>
 <AMVARIABLE ACTIVITY="increment" RESULTVARIABLE="NewNumber" />
