@@ -4,11 +4,12 @@
 </AMTASKHEAD>
 
 <AMFUNCTION NAME="Main" ACCESS="private">
-<AMVARIABLE NAME="WordsForSearch" VALUE="" />
+<AMVARIABLE NAME="WordsForSearch" VALUE="" TYPE="text" />
+<AMVARIABLE NAME="EmptySearch" VALUE="" TYPE="text" />
 <AMCLIPBOARD ACTIVITY="clear" />
 <AMCLIPBOARD ACTIVITY="copy" />
 <AMCLIPBOARD ACTIVITY="get" RESULTVARIABLE="WordsForSearch" />
-<AMIF EXPRESSION="%WordsForSearch%" USECOMPLEXUI="YES">
+<AMIF EXPRESSION="%WordsForSearch% &lt;&gt; %EmptySearch%">
    <AMBROWSER URL="https://www.google.ru/search?q=&quot;%WordsForSearch%&quot;" BROWSER="chrome" />
 </AMIF>
 </AMFUNCTION>
