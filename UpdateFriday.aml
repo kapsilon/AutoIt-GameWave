@@ -18,7 +18,7 @@
 <AMRUN FILE="C:\Users\Sergey\AppData\Local\atom\atom.exe" />
 <AMBROWSER URL="http://chromium.woolyss.com/#windows-64-bit" BROWSER="chrome" />
 <AMBROWSER URL="http://samlab.ws/category/samsoft/" BROWSER="chrome" />
-<AMRUN FILE="apm upgrade -y" />
+<AMRUN FILE="apm upgrade y" />
 <AMRUN FILE="npm update -g" />
 <AMRUN FILE="composer global update" />
 <!-- AMREGION="Steam" LENGTH="2" COLLAPSE="no" -->
