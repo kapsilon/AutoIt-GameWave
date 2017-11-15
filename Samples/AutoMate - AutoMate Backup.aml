@@ -1,0 +1,89 @@
+<AMTASK>
+<AMTASKHEAD>
+    <TASKINFO TASKVERSION="10.0.0.40" />
+</AMTASKHEAD>
+
+<AMFUNCTION NAME="Main" ACCESS="private" RETURNTYPE="variable">
+<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- TASK DESCRIPTION:  THIS TASK WILL CREATE A BACKUP OF AUTOMATE AND ALL OF ITS TASK FILES. THIS TASK CREATES TWO DIFFERENT BACKUPS EACH TIME IT IS RUN. THE FIRST BACKUP IS PERFORMED USING THE 'BACKUP AUTOMATE' ACTION. THE SECOND WILL BACKUP ALL OF THE AUTOMATE TASK FILES, SCRIPTS, MODULES, ETC. STORED IN THE AUTOMATE TASKS DIRECTORY INTO A ZIP FILE. THE TASK ASSUMES THE FOLLOWING:
+
+1. BACKUPS ARE STORED IN THE DIRECTORY {TASKSDIR}\BACKUPS.
+2. BACKUPS CREATED USING THE AUTOMATE STEP ARE STORED IN {TASKSDIR}\BACKUPS\APP.
+3. BACKUPS OF THE AUTOMATE TASKS FILES, MODULES, ETC. ARE STORED IN {TASKSDIR}\BACKUPS\USER.
+4. ALL BACKUP FILES ARE NAMED WITH THE CURRENT MONTH, DAY, HOUR, AND MINUTE THAT THE FILE WAS CREATED.
+5. BACKUPS ARE KEPT FOR A TOTAL OF 60 DAYS AND THEN ARE DELETED IF OLDER THAN THAT.
+
+EACH OF THE ABOVE ASSUMPTIONS ARE CONTROLLED BY VARIABLES THAT YOU CAN CHANGE AT WILL. IF YOU WANT TO CHANGE THE NUMBER OF DAYS THAT THE BACKUP FILES ARE CREATED, CHANGE THE VARIABLE DAYSTOKEEP.
+
+YOU CAN SETUP A SCHEDULE TRIGGER FOR THIS TASK AND HAVE IT RUN EVERY DAY TO CREATE BACKUPS OF YOUR ENTIRE AUTOMATE SETTINGS, TASK FILES, AND ANY USER FILES THAT YOU MAY PLACE IN THE AUTOMATE TASKS DIRECTORY.
+ -->
+<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- GETTASKSDIRECTORY() IS A FUNCTION THAT RETURNS THE DEFAULT DIRECTORY FOR STORING AUTOMATE TASK FILES.  
+ALL DATA WRITTEN TO FILES BY TASK TEMPLATE TASKS IS STORED ON THE %GETTASKSDIRECTORY()%\SAMPLE TASK OUTPUT DATA\ DIRECTORY. -->
+<AMVARIABLE NAME="theDirectory">%GetTasksDirectory()%\Sample Task Output Data</AMVARIABLE>
+<AMVARIABLE NAME="BackupDir" DESCRIPTION="Directory for AutoMate backups.">%theDirectory%\Backups</AMVARIABLE>
+<AMVARIABLE NAME="AppBackupDir" DESCRIPTION="Directory for AutoMate application backups.">%BackupDir%\App</AMVARIABLE>
+<AMVARIABLE NAME="AppBackupFile" DESCRIPTION="File to store AutoMate application backup.">%AppBackupDir%\bk%Format(Now(), "mmddhhnn")%.ama</AMVARIABLE>
+<AMVARIABLE NAME="UserBackupDir" DESCRIPTION="Directory for AutoMate task backups.">%BackupDir%\User</AMVARIABLE>
+<AMVARIABLE NAME="UserBackupFile" DESCRIPTION="File to store AutoMate task backup.">%UserBackupDir%\bk%Format(Now(), "mmddhhnn")%.zip</AMVARIABLE>
+<AMVARIABLE NAME="TaskDir" DESCRIPTION="Directory for AutoMate tasks.">%GetTasksDirectory()%</AMVARIABLE>
+<AMVARIABLE NAME="DaysToKeep" VALUE="60" DESCRIPTION="Number of days to keep backup files." />
+<AMVARIABLE NAME="BackupFileList" DESCRIPTION="List of files in the AutoMate backup directories." />
+<AMIF ACTIVITY="folder_exist" FOLDER="%AppBackupDir%" MODE="not_exist">
+   <AMFILESYSTEM ACTIVITY="create_folder" FOLDER="%AppBackupDir%" />
+</AMIF>
+<AMIF ACTIVITY="folder_exist" FOLDER="%UserBackupDir%" MODE="not_exist">
+   <AMFILESYSTEM ACTIVITY="create_folder" FOLDER="%UserBackupDir%" />
+</AMIF>
+<AMAUTOMATE BACKUPARCHIVENAME="%AppBackupFile%" BACKUPHKLM="YES" />
+<AMLOOP ACTIVITY="folder" FOLDER="%AppBackupDir%\*.ama" RESULTVARIABLE="BackupFileList">
+   <AMIF EXPRESSION="%DateDiff(&quot;d&quot;, FileDateTime(BackupFileList), Now())% &gt; %DaysToKeep%">
+      <AMFILESYSTEM ACTIVITY="delete" SOURCE="%BackupFileList%" />
+   </AMIF>
+</AMLOOP>
+<AMLOOP ACTIVITY="folder" FOLDER="%UserBackupDir%\*.zip" RESULTVARIABLE="BackupFileList">
+   <AMIF EXPRESSION="%DateDiff(&quot;d&quot;, FileDateTime(BackupFileList), Now())% &gt; %DaysToKeep%">
+      <AMFILESYSTEM ACTIVITY="delete" SOURCE="%BackupFileList%" />
+   </AMIF>
+</AMLOOP>
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepStart" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is starting the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to execute" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepEnd" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is ending the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to end" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepError" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function with the error" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number of the error" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskFailure" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function causing the task failure" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number causing the task failure" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskStart" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is starting" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskEnd" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is ending" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+</AMTASK>

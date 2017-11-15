@@ -1,0 +1,71 @@
+<AMTASK>
+<AMTASKHEAD>
+    <TASKINFO TASKVERSION="10.0.0.40" />
+</AMTASKHEAD>
+
+<AMFUNCTION NAME="Main" ACCESS="private" RETURNTYPE="variable">
+<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- TASK DESCRIPTION: THIS TASK USES TWO-DIMENSIONED ARRAYS WITH LOOPS, AS WELL AS THE UBOUND FUNCTION. UBOUND IS A FUNCTION THAT RETURNS THE HIGHEST INDEX OF A VARIABLE THAT HOLDS AN ARRAY OF VALUES.
+
+NOTE: MORE HELP ON FUNCTIONS CAN BE FOUND IN THE HELP DOC UNDER 'AUTOMATE' -> 'REFERENCE' -> 'BASIC SCRIPTING' -> 'FUNCTIONS' AND/OR 'EXTENDED FUNCTIONS.' -->
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
+<AMVARIABLE NAME="theFileName"></AMVARIABLE>
+<AMVARIABLE NAME="counter"></AMVARIABLE>
+<AMVARIABLE NAME="theDirectory" VALUE="C:\ProgramData\AutoMate\AutoMate 10" />
+<!-- THE FILECOUNT() FUNCTION RETURNS THE NUMBER OF FILES IN A SPECIFIED DIRECTORY. -->
+<AMARRAY NAME="myArray" ROWS="%FileCount(theDirectory)%" COLUMNS="3" DESCRIPTION="array to hold filename, size, and date" />
+<!-- GETAUTOMATEDIRECTORY() IS A FUNCTION THAT RETURNS THE MAIN INSTALLATION DIRECTORY FOR AUTOMATE (E.G., C:\PROGRAM FILES\AUTOMATE 6).  ALL DATA FILES USED TO READ DATA IN TASK TEMPLATES TASKS ARE LOCATED IN THE %GETAUTOMATEDIRECTORY()%\SAMPLE TASK INPUT DATA\ DIRECTORY. -->
+<AMLOOP ACTIVITY="folder" TYPE="FOLDER" FOLDER="%theDirectory%" RESULTVARIABLE="theFileName">
+   <AMVARIABLE ACTIVITY="increment" RESULTVARIABLE="counter" />
+   <AMVARIABLE ACTIVITY="set" VARIABLENAME="myArray(%counter%, 1)">%theFileName%</AMVARIABLE>
+   <AMVARIABLE ACTIVITY="set" VARIABLENAME="myArray(%counter%, 2)">%FileLen(theFileName)%</AMVARIABLE>
+   <AMVARIABLE ACTIVITY="set" VARIABLENAME="myArray(%counter%, 3)">%FileDateTime(theFileName)%</AMVARIABLE>
+</AMLOOP>
+<AMLOOP TOTALLOOPS="%UBound(myArray, 1)%" RESULTVARIABLE="counter" FROM="1" TO="%UBound(myArray, 1)%">
+     <AMSHOWDIALOG>Filename: %myArray(counter, 1)% 
+
+File Size: %myArray(counter, 2)%
+
+File Date: %myArray(counter, 3)%</AMSHOWDIALOG>
+</AMLOOP>
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepStart" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is starting the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to execute" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepEnd" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is ending the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to end" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepError" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function with the error" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number of the error" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskFailure" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function causing the task failure" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number causing the task failure" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskStart" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is starting" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskEnd" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is ending" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+</AMTASK>

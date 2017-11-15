@@ -1,0 +1,63 @@
+<AMTASK>
+<AMTASKHEAD>
+    <TASKINFO TASKVERSION="10.0.0.40" />
+</AMTASKHEAD>
+
+<AMFUNCTION NAME="Main" ACCESS="private" RETURNTYPE="variable">
+<!-- ------------------------------------------------------------------ -->
+<!-- TASK DESCRIPTION:  THIS SAMPLE TASK WILL ILLUSTRATE HOW AUTOMATE CAN GRAB A PARTICULAR SENTENCE FROM A PARAGRAPHUSING THE 'FIND TEXT' AND 'GET SUBTEXT' ACTIONS. THIS TASK IS IDEAL WHEN PARTICULAR DATA NEEDS TO BE EXTRACTED FROM A TEXT FILE.  THE SAME CONCEPT CAN BE USED TO ENTER DATA IN BETWEEN TWO REFERENCE POINTS IN A PARAGRAPH. -->
+<!-- ------------------------------------------------------------------ -->
+<AMVARIABLE NAME="VAR_Data">AutoMate is the Leading Software for Automation of front and back-office business processes.It provides all the tools necessary to completely automate business processes, regardless of their complexity. As a matter of fact, AutoMate is by far the coolest software product known to man. It is pretty darn easy to use, does exactly what you instruct it to do, always completes its job and never complains about being overworked. Tasks are developed via drag-and-drop without writing code. Simply drag together each action object in the sequence it should be executed.</AMVARIABLE>
+<AMSHOWDIALOG>This is the original paragraph:
+
+%VAR_Data%</AMSHOWDIALOG>
+<AMVARIABLE NAME="VAR_Index1" />
+<AMVARIABLE NAME="VAR_Index2" />
+<AMVARIABLE NAME="VAR_Subtext" />
+<AMTEXT TEXT="%VAR_Data%" FIND="As a matter" RESULTVARIABLE="VAR_Index1" />
+<AMTEXT TEXT="%VAR_Data%" FIND="Tasks are developed" RESULTVARIABLE="VAR_Index2" />
+<AMTEXT ACTIVITY="get_substring" TEXT="%VAR_Data%" RESULTVARIABLE="VAR_Subtext" STARTPOSITION="%VAR_Index1%" LENGTH="%VAR_Index2 - VAR_Index1%" />
+<AMSHOWDIALOG>This is the sentence extraced from the original data:
+
+%VAR_Subtext%</AMSHOWDIALOG>
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepStart" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is starting the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to execute" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepEnd" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is ending the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to end" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepError" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function with the error" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number of the error" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskFailure" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function causing the task failure" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number causing the task failure" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskStart" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is starting" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskEnd" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is ending" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+</AMTASK>

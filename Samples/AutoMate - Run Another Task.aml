@@ -1,31 +1,15 @@
 <AMTASK>
 <AMTASKHEAD>
-    <TASKINFO TASKVERSION="10.7.0.3" />
+    <TASKINFO TASKVERSION="10.3.0.8" />
 </AMTASKHEAD>
 
-<AMFUNCTION NAME="Main" ACCESS="private">
-<AMVARIABLE NAME="PauseTime" VALUE="250" TYPE="number" READONLY="YES" />
-<AMRUN FILE="C:\Program Files (x86)\SUMo\SUMo.exe" />
-<AMINPUT KEYSTROKES="{F5}" PREDELAY="5000" />
-<AMBROWSER URL="http://chromium.woolyss.com/#windows-64-bit" BROWSER="chrome" />
-<AMBROWSER URL="http://samlab.ws/category/samsoft/" BROWSER="chrome" />
-<AMRUN FILE="apm upgrade --confirm=false" />
-<!--
-<AMRUN FILE="C:\Users\Sergey\AppData\Local\atom\atom.exe" />
-   --><AMRUN FILE="npm update -g" />
-<AMRUN FILE="composer global update" />
-<!-- AMREGION="Steam" LENGTH="2" COLLAPSE="no" -->
-<!--
-<AMSERVICES SERVICE="Steam Client Service" />
-<AMRUN FILE="&quot;C:\Program Files (x86)\Steam\Steam.exe&quot;" />
-   --><!-- AMREGION="Kaspersky Software Update" LENGTH="7" COLLAPSE="no" -->
-<AMRUN FILE="C:\Program Files (x86)\Kaspersky Lab\Kaspersky Internet Security 18.0.0\avpui.exe" />
-<AMINPUT ACTIVITY="move_mouse" X="395" Y="503" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="102" Y="118" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="350" Y="269" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
+<AMFUNCTION NAME="Main" ACCESS="private" RETURNTYPE="variable">
+<!-- ----------- -->
+<!-- TASK DESCRIPTION: THIS TASK SHOWS HOW AUTOMATE CAN RUN TASKS WITHIN ANOTHER TASK.  THIS ALLOWS COMPLEX SOLUTIONS TO BE EASILY BUILT FROM A LIBRARY OF PREVIOUSLY CREATED TASKS.  IN THIS EXAMPLE, OUR MAIN TASK ("RUN ANOTHER TASK") WILL RUN THE "OPEN NOTEPAD AND SEND KEYSTROKES" MANAGED TASK. -->
+<!-- ----------- -->
+<AMSHOWDIALOG MESSAGE="We are going to use the Start Task action to execute the another task within this one." WINDOWTITLE="Run Another Task" />
+<AMTASK MANAGEDTASK="Samples\GUI Automation - Send Keystrokes in Notepad" TASKID="{B819A2D4-D16A-460D-92A4-32DE3C5D59FB}" />
+<AMSHOWDIALOG MESSAGE="Now we're back in our parent task." WINDOWTITLE="Run Another Task" />
 </AMFUNCTION>
 
 <AMFUNCTION NAME="OnStepStart" ACCESS="private">

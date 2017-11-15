@@ -1,31 +1,19 @@
 <AMTASK>
 <AMTASKHEAD>
-    <TASKINFO TASKVERSION="10.7.0.3" />
+    <TASKINFO TASKVERSION="10.0.0.40" />
 </AMTASKHEAD>
 
-<AMFUNCTION NAME="Main" ACCESS="private">
-<AMVARIABLE NAME="PauseTime" VALUE="250" TYPE="number" READONLY="YES" />
-<AMRUN FILE="C:\Program Files (x86)\SUMo\SUMo.exe" />
-<AMINPUT KEYSTROKES="{F5}" PREDELAY="5000" />
-<AMBROWSER URL="http://chromium.woolyss.com/#windows-64-bit" BROWSER="chrome" />
-<AMBROWSER URL="http://samlab.ws/category/samsoft/" BROWSER="chrome" />
-<AMRUN FILE="apm upgrade --confirm=false" />
-<!--
-<AMRUN FILE="C:\Users\Sergey\AppData\Local\atom\atom.exe" />
-   --><AMRUN FILE="npm update -g" />
-<AMRUN FILE="composer global update" />
-<!-- AMREGION="Steam" LENGTH="2" COLLAPSE="no" -->
-<!--
-<AMSERVICES SERVICE="Steam Client Service" />
-<AMRUN FILE="&quot;C:\Program Files (x86)\Steam\Steam.exe&quot;" />
-   --><!-- AMREGION="Kaspersky Software Update" LENGTH="7" COLLAPSE="no" -->
-<AMRUN FILE="C:\Program Files (x86)\Kaspersky Lab\Kaspersky Internet Security 18.0.0\avpui.exe" />
-<AMINPUT ACTIVITY="move_mouse" X="395" Y="503" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="102" Y="118" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="350" Y="269" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
+<AMFUNCTION NAME="Main" ACCESS="private" RETURNTYPE="variable">
+<!-- ------------------------------------------------------------------ -->
+<!-- TASK DESCRIPTION:  THIS TASK DISPLAYS A MULTIPLE CHOICE DIALOG BOX BASED THE OPTIONS THE USER SPECIFIED. THIS ACTION IS IDEAL WHEN A MULTIPLE-CHOICE SELECTION IS NEEDED OR THE USER MUST MAKE A DECISION THAT WILL AFFECT THE ACTION TAKEN BY A TASK. -->
+<!-- ------------------------------------------------------------------ -->
+<AMVARIABLE NAME="VAR_1" VALUE="First Name" />
+<AMVARIABLE NAME="VAR_2" VALUE="Last Name" />
+<AMVARIABLE NAME="VAR_3" VALUE="Address" />
+<AMVARIABLE NAME="VAR_4" VALUE="Phone Number" />
+<AMVARIABLE NAME="VAR_Selection" />
+<AMSHOWDIALOG ACTIVITY="select" MESSAGETEXT="Which variable would you like to choose?" RESULTVARIABLE="VAR_Selection" LISTTYPE="list" ITEMS="%VAR_1%,%VAR_2%,%VAR_3%,%VAR_4%" VALUES="%VAR_1%,%VAR_2%,%VAR_3%,%VAR_4%" INDEXSELECTED="1" WINDOWTITLE="Select One" />
+<AMSHOWDIALOG WINDOWTITLE="%VAR_Selection%">You chose %VAR_Selection%</AMSHOWDIALOG>
 </AMFUNCTION>
 
 <AMFUNCTION NAME="OnStepStart" ACCESS="private">

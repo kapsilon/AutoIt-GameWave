@@ -1,31 +1,25 @@
 <AMTASK>
 <AMTASKHEAD>
-    <TASKINFO TASKVERSION="10.7.0.3" />
+    <TASKINFO TASKVERSION="10.0.0.40" />
 </AMTASKHEAD>
 
 <AMFUNCTION NAME="Main" ACCESS="private">
-<AMVARIABLE NAME="PauseTime" VALUE="250" TYPE="number" READONLY="YES" />
-<AMRUN FILE="C:\Program Files (x86)\SUMo\SUMo.exe" />
-<AMINPUT KEYSTROKES="{F5}" PREDELAY="5000" />
-<AMBROWSER URL="http://chromium.woolyss.com/#windows-64-bit" BROWSER="chrome" />
-<AMBROWSER URL="http://samlab.ws/category/samsoft/" BROWSER="chrome" />
-<AMRUN FILE="apm upgrade --confirm=false" />
-<!--
-<AMRUN FILE="C:\Users\Sergey\AppData\Local\atom\atom.exe" />
-   --><AMRUN FILE="npm update -g" />
-<AMRUN FILE="composer global update" />
-<!-- AMREGION="Steam" LENGTH="2" COLLAPSE="no" -->
-<!--
-<AMSERVICES SERVICE="Steam Client Service" />
-<AMRUN FILE="&quot;C:\Program Files (x86)\Steam\Steam.exe&quot;" />
-   --><!-- AMREGION="Kaspersky Software Update" LENGTH="7" COLLAPSE="no" -->
-<AMRUN FILE="C:\Program Files (x86)\Kaspersky Lab\Kaspersky Internet Security 18.0.0\avpui.exe" />
-<AMINPUT ACTIVITY="move_mouse" X="395" Y="503" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="102" Y="118" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="350" Y="269" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
+<!-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- TASK DESCRIPTION:  THIS TASK READS A COLUMN OF DATA FROM AN EXCEL SPREADSHEET ROW BY ROW. -->
+<!-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<AMVARIABLE NAME="firstName" VALUE="firstName" />
+<AMVARIABLE NAME="theRow" VALUE="2" />
+<!-- GETAUTOMATEDIRECTORY() IS A FUNCTION THAT RETURNS THE MAIN INSTALLATION DIRECTORY FOR AUTOMATE (E.G., C:\PROGRAM FILES\AUTOMATE 6).  ALL DATA FILES USED TO READ DATA IN TASK TEMPLATES TASKS ARE LOCATED IN THE %GETAUTOMATEDIRECTORY()%\SAMPLE TASK INPUT DATA\ DIRECTORY. -->
+<AMEXCEL AM_ERRORS="20284" AM_ERROREXCLUDE="YES" SESSION="ExcelSession1" WORKBOOK="%GetAutoMateDirectory%\Sample Task Input Data\excel_data.xls" />
+<AMEXCEL ACTIVITY="get_cell" SESSION="ExcelSession1" RESULTVARIABLE="firstName" CELLREF="A%theRow%" />
+<AMLOOP ACTIVITY="expression" CONDITION="until" EXPRESSION="%firstName = &quot;&quot;%">
+   <AMSHOWDIALOG>The first name of the individual in row %theRow% is:
+
+%firstName%</AMSHOWDIALOG>
+   <AMVARIABLE ACTIVITY="increment" RESULTVARIABLE="theRow" />
+   <AMEXCEL ACTIVITY="get_cell" SESSION="ExcelSession1" RESULTVARIABLE="firstName" CELLREF="A%theRow%" />
+</AMLOOP>
+<AMEXCEL ACTIVITY="close_workbook" SESSION="ExcelSession1" SAVETYPE="do_not_save" />
 </AMFUNCTION>
 
 <AMFUNCTION NAME="OnStepStart" ACCESS="private">

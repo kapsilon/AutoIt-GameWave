@@ -1,31 +1,25 @@
 <AMTASK>
 <AMTASKHEAD>
-    <TASKINFO TASKVERSION="10.7.0.3" />
+    <TASKINFO TASKVERSION="10.0.0.40" />
 </AMTASKHEAD>
 
 <AMFUNCTION NAME="Main" ACCESS="private">
-<AMVARIABLE NAME="PauseTime" VALUE="250" TYPE="number" READONLY="YES" />
-<AMRUN FILE="C:\Program Files (x86)\SUMo\SUMo.exe" />
-<AMINPUT KEYSTROKES="{F5}" PREDELAY="5000" />
-<AMBROWSER URL="http://chromium.woolyss.com/#windows-64-bit" BROWSER="chrome" />
-<AMBROWSER URL="http://samlab.ws/category/samsoft/" BROWSER="chrome" />
-<AMRUN FILE="apm upgrade --confirm=false" />
-<!--
-<AMRUN FILE="C:\Users\Sergey\AppData\Local\atom\atom.exe" />
-   --><AMRUN FILE="npm update -g" />
-<AMRUN FILE="composer global update" />
-<!-- AMREGION="Steam" LENGTH="2" COLLAPSE="no" -->
-<!--
-<AMSERVICES SERVICE="Steam Client Service" />
-<AMRUN FILE="&quot;C:\Program Files (x86)\Steam\Steam.exe&quot;" />
-   --><!-- AMREGION="Kaspersky Software Update" LENGTH="7" COLLAPSE="no" -->
-<AMRUN FILE="C:\Program Files (x86)\Kaspersky Lab\Kaspersky Internet Security 18.0.0\avpui.exe" />
-<AMINPUT ACTIVITY="move_mouse" X="395" Y="503" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="102" Y="118" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="350" Y="269" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- TASK DESCRIPTION:  THIS TASK READS THROUG A LIST OF DATA LINE BY LINE AND INSERTS THE DATA INTO AN EXCEL SPREADSHEET ROW BY ROW. -->
+<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<AMVARIABLE NAME="theList">Sallie Jones
+Bill Johnson
+Sam Rogers
+Jill Smith</AMVARIABLE>
+<AMVARIABLE NAME="theListItem" />
+<AMVARIABLE NAME="theRow" VALUE="1" />
+<!-- GETTASKSDIRECTORY() IS A FUNCTION THAT RETURNS THE DEFAULT DIRECTORY FOR STORING AUTOMATE TASK FILES.  ALL DATA WRITTEN TO FILES BY TASK TEMPLATE TASKS IS STORED ON THE %GETTASKSDIRECTORY()%\SAMPLE TASK OUTPUT DATA\ DIRECTORY. -->
+<AMEXCEL SESSION="ExcelSession1" CONNECTBY="create_workbook" WORKBOOK="%GetTasksDirectory()%\Sample Task Output Data\excel_data.xls" OVERWRITE="YES" />
+<AMEXCEL ACTIVITY="set_cell" SESSION="ExcelSession1" NEWVALUE="Name" CELLROW="%theRow%" CELLCOLUMN="1" />
+<AMLOOP ACTIVITY="list" LIST="%theList%" DELIMITER="new_line" RESULTVARIABLE="theListItem">
+   <AMVARIABLE ACTIVITY="increment" RESULTVARIABLE="theRow" />
+   <AMEXCEL ACTIVITY="set_cell" SESSION="ExcelSession1" NEWVALUE="%theListItem%" CELLROW="%theRow%" CELLCOLUMN="1" />
+</AMLOOP>
 </AMFUNCTION>
 
 <AMFUNCTION NAME="OnStepStart" ACCESS="private">

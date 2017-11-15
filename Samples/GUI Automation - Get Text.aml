@@ -1,31 +1,22 @@
 <AMTASK>
 <AMTASKHEAD>
-    <TASKINFO TASKVERSION="10.7.0.3" />
+    <TASKINFO TASKVERSION="10.0.0.40" />
 </AMTASKHEAD>
 
 <AMFUNCTION NAME="Main" ACCESS="private">
-<AMVARIABLE NAME="PauseTime" VALUE="250" TYPE="number" READONLY="YES" />
-<AMRUN FILE="C:\Program Files (x86)\SUMo\SUMo.exe" />
-<AMINPUT KEYSTROKES="{F5}" PREDELAY="5000" />
-<AMBROWSER URL="http://chromium.woolyss.com/#windows-64-bit" BROWSER="chrome" />
-<AMBROWSER URL="http://samlab.ws/category/samsoft/" BROWSER="chrome" />
-<AMRUN FILE="apm upgrade --confirm=false" />
-<!--
-<AMRUN FILE="C:\Users\Sergey\AppData\Local\atom\atom.exe" />
-   --><AMRUN FILE="npm update -g" />
-<AMRUN FILE="composer global update" />
-<!-- AMREGION="Steam" LENGTH="2" COLLAPSE="no" -->
-<!--
-<AMSERVICES SERVICE="Steam Client Service" />
-<AMRUN FILE="&quot;C:\Program Files (x86)\Steam\Steam.exe&quot;" />
-   --><!-- AMREGION="Kaspersky Software Update" LENGTH="7" COLLAPSE="no" -->
-<AMRUN FILE="C:\Program Files (x86)\Kaspersky Lab\Kaspersky Internet Security 18.0.0\avpui.exe" />
-<AMINPUT ACTIVITY="move_mouse" X="395" Y="503" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="102" Y="118" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="350" Y="269" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
+<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- TASK DESCRIPTION: THIS TASK DEMONSTRATES HOW TO GET TEXT FROM A WINDOW OUTSIDE OF AUTOMATE, POPULATE THAT TEXT INTO A VARIABLE, AND DISPLAY IT IN A MESSAGE BOX. -->
+<!-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<AMSHOWDIALOG MESSAGE="AutoMate can easily locate and extract text from a window.  You can then use this extracted text in your task.  In this example, we'll open Notepad and extract one of the menu items." WINDOWTITLE="Get Text From Another Window" />
+<!-- CREATE A VARIABLE TO STORE THE DESIRED TEXT IN. -->
+<AMVARIABLE NAME="theText" />
+<AMRUN FILE="Notepad.exe" />
+<AMWAIT ACTIVITY="window" WINDOWTITLE="*Notepad*" />
+<AMINTERACT WINDOWTITLE="*Notepad*" OBJECTPROPERTIES="Type=MenuItem,Name=Edit,Value=,Class=Notepad,X=,Y=" RESULTVARIABLE="theText" />
+<AMSHOWDIALOG WINDOWTITLE="Sample Get Text">One of the items in the menu is: %theText%.</AMSHOWDIALOG>
+<AMINTERACT WINDOWTITLE="*Notepad*" OBJECTPROPERTIES="Type=MenuItem,Name=Help,Value=,Class=Notepad,X=,Y=" RESULTVARIABLE="theText" />
+<AMSHOWDIALOG WINDOWTITLE="Sample Get Text">Another one is: %theText%.</AMSHOWDIALOG>
+<AMPROCESSES ACTIVITY="end" PROCESSNAME="Notepad.exe" />
 </AMFUNCTION>
 
 <AMFUNCTION NAME="OnStepStart" ACCESS="private">

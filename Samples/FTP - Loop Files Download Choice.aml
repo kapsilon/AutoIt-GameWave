@@ -1,0 +1,69 @@
+<AMTASK>
+<AMTASKHEAD>
+    <TASKINFO TASKVERSION="10.0.0.40" />
+</AMTASKHEAD>
+
+<AMFUNCTION NAME="Main" ACCESS="private">
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- TASK DESCRIPTION: THIS TASK DOES THE FOLLOWING:
+1. LOGON TO A FTP SERVER.
+2. EXECUTE THE "GET LONG LIST" COMMAND USING AUTOMATE'S 'FTP ADVANCED' ACTION AND POPULATE A DATASET WITH THE RESULTS.
+3. LOOPS THROUGH THE DATASET, WHICH IS A LIST OF FILES ON THE SERVER, AND PROVIDES THE USER A CHOICE TO DOWNLOAD THE CURRENT FILE OR NOT.
+
+NOTE1: PLEASE MAKE THE APPROPRIATE CHANGES TO THE 'FTP LOGON' STEP BEFORE RUNNING THE TASK. ALSO, IF THE FILES YOU WANT TO SPECIFY ARE NOT LOCATED IN YOUR FTP SITE’S HOME DIRECTORY, AN 'FTP CHANGE FOLDER' ACTION MAY NEED TO BE CREATED TO SPECIFY THE CORRECT DIRECTORY.
+
+NOTE2: MORE HELP ON DATASETS CAN BE FOUND IN THE HELP DOC UNDER AUTOMATE -> REFERENCE -> AML -> DATASETS
+ -->
+<!-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<AMFTP ACTIVITY="logon" SERVER="linuxbox.networkautomation.com" USERNAME="demo" PASSWORD="AM4Z4NqTOnvMYJU0qrS2y7ARfmVIoFaglHyaME" PASSIVEMODE="yes" SESSION="FtpSession1" />
+<AMFTP ACTIVITY="advanced" FTPCOMMAND="long_list" FTPLONGLISTDATASET="fileList" SESSION="FtpSession1" />
+<AMLOOP ACTIVITY="dataset" DATASET="fileList">
+   <AMSHOWDIALOG WINDOWTITLE="Download" BUTTONS="yes_no" DEFAULTBUTTON="2" ONSECONDBUTTONCLICK="continue" ICON="question">Woudl you like to download this file?
+
+File Name: %fileList.FTPFileName%
+File Size: %fileList.FTPFileSize%
+File Date: %fileList.FTPFileDate%
+file Type: %fileList.FTPFileType%</AMSHOWDIALOG>
+</AMLOOP>
+<AMFTP ACTIVITY="logoff" SESSION="FtpSession1" />
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepStart" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is starting the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to execute" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepEnd" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is ending the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to end" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepError" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function with the error" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number of the error" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskFailure" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function causing the task failure" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number causing the task failure" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskStart" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is starting" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskEnd" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is ending" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+</AMTASK>

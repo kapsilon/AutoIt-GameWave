@@ -1,31 +1,25 @@
 <AMTASK>
 <AMTASKHEAD>
-    <TASKINFO TASKVERSION="10.7.0.3" />
+    <TASKINFO TASKVERSION="10.0.0.40" />
+    <ATTACHMENTINFO ATTACHMENTID="{6D0C4EF6-1A41-4176-BB20-8926D119B982}" ATTACHMENTPATH="C:\Users\Administrator\Desktop\Sample Task Input Data\SQL_1.csv" ATTACHMENTNAME="CSVDatabase" ATTACHMENTDATE="41543.6190921296" />
 </AMTASKHEAD>
 
-<AMFUNCTION NAME="Main" ACCESS="private">
-<AMVARIABLE NAME="PauseTime" VALUE="250" TYPE="number" READONLY="YES" />
-<AMRUN FILE="C:\Program Files (x86)\SUMo\SUMo.exe" />
-<AMINPUT KEYSTROKES="{F5}" PREDELAY="5000" />
-<AMBROWSER URL="http://chromium.woolyss.com/#windows-64-bit" BROWSER="chrome" />
-<AMBROWSER URL="http://samlab.ws/category/samsoft/" BROWSER="chrome" />
-<AMRUN FILE="apm upgrade --confirm=false" />
-<!--
-<AMRUN FILE="C:\Users\Sergey\AppData\Local\atom\atom.exe" />
-   --><AMRUN FILE="npm update -g" />
-<AMRUN FILE="composer global update" />
-<!-- AMREGION="Steam" LENGTH="2" COLLAPSE="no" -->
-<!--
-<AMSERVICES SERVICE="Steam Client Service" />
-<AMRUN FILE="&quot;C:\Program Files (x86)\Steam\Steam.exe&quot;" />
-   --><!-- AMREGION="Kaspersky Software Update" LENGTH="7" COLLAPSE="no" -->
-<AMRUN FILE="C:\Program Files (x86)\Kaspersky Lab\Kaspersky Internet Security 18.0.0\avpui.exe" />
-<AMINPUT ACTIVITY="move_mouse" X="395" Y="503" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="102" Y="118" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="350" Y="269" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
+<AMFUNCTION NAME="Main" ACCESS="private" RETURNTYPE="variable">
+<!-- ------------------------------------------------------------------ -->
+<!-- TASK DESCRIPTION: THIS TASK WILL GET THE CONTENTS OF A CSV FILE, AND RETURN THE DATASET WHICH IS LOOPED THROUGH ROW BY ROW. -->
+<!-- ------------------------------------------------------------------ -->
+<AMFILESYSTEM ACTIVITY="csv_to_dataset" SOURCE="C:\Users\Administrator\AppData\Local\Temp\SQL_1.csv" RESULTDATASET="DS_Data" />
+<!-- ENTER THE DATASET NAME TO LOOP THROUGH. FOR THIS EXAMPLE, ENTER THE DATASET NAME:
+RATPACKIDS
+ -->
+<AMLOOP ACTIVITY="dataset" DATASET="DS_Data">
+<!-- CREATE A MESSAGE BOX STEP AND ADD THE FOLLOWING VALUES AS THE MESSAGE TO DISPLAY.
+%RATPACKIDS.NAME%
+%RATPACKIDS.NUMBER%
+ -->
+     <AMSHOWDIALOG>%DS_Data.Name%
+%DS_Data.Number%</AMSHOWDIALOG>
+</AMLOOP>
 </AMFUNCTION>
 
 <AMFUNCTION NAME="OnStepStart" ACCESS="private">
@@ -66,4 +60,8 @@
 
 </AMFUNCTION>
 
+<ATTACHMENTSSET>
+<MIMEATTACHMENT ATTACHMENTID="{6D0C4EF6-1A41-4176-BB20-8926D119B982}" ATTACHMENTSIZE="68" />
+TmFtZSxOdW1iZXINCkZyYW5rLDAwMDAxDQpTYW1teSwwMDAwMg0KRGVhbiwwMDAwMw0K
+</ATTACHMENTSSET>
 </AMTASK>

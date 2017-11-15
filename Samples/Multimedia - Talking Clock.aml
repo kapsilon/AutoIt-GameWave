@@ -1,31 +1,24 @@
 <AMTASK>
 <AMTASKHEAD>
-    <TASKINFO TASKVERSION="10.7.0.3" />
+    <TASKINFO TASKVERSION="10.0.0.40" />
 </AMTASKHEAD>
 
-<AMFUNCTION NAME="Main" ACCESS="private">
-<AMVARIABLE NAME="PauseTime" VALUE="250" TYPE="number" READONLY="YES" />
-<AMRUN FILE="C:\Program Files (x86)\SUMo\SUMo.exe" />
-<AMINPUT KEYSTROKES="{F5}" PREDELAY="5000" />
-<AMBROWSER URL="http://chromium.woolyss.com/#windows-64-bit" BROWSER="chrome" />
-<AMBROWSER URL="http://samlab.ws/category/samsoft/" BROWSER="chrome" />
-<AMRUN FILE="apm upgrade --confirm=false" />
-<!--
-<AMRUN FILE="C:\Users\Sergey\AppData\Local\atom\atom.exe" />
-   --><AMRUN FILE="npm update -g" />
-<AMRUN FILE="composer global update" />
-<!-- AMREGION="Steam" LENGTH="2" COLLAPSE="no" -->
-<!--
-<AMSERVICES SERVICE="Steam Client Service" />
-<AMRUN FILE="&quot;C:\Program Files (x86)\Steam\Steam.exe&quot;" />
-   --><!-- AMREGION="Kaspersky Software Update" LENGTH="7" COLLAPSE="no" -->
-<AMRUN FILE="C:\Program Files (x86)\Kaspersky Lab\Kaspersky Internet Security 18.0.0\avpui.exe" />
-<AMINPUT ACTIVITY="move_mouse" X="395" Y="503" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="102" Y="118" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="350" Y="269" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
+<AMFUNCTION NAME="Main" ACCESS="private" RETURNTYPE="variable">
+<!-- ------------------------------------------------------------------ -->
+<!-- TASK DESCRIPTION:  THIS IS A SAMPLE TASK THAT SAYS THE TIME OUT LOUD USING AUTOMATE'S BUILT-IN SUPPORT FOR SPEECH SYNTHESIS.   -->
+<!-- ------------------------------------------------------------------ -->
+<!-- IF YOU ARE USING WINDOWS VISTA, 2000 OR XP IT SHOULD RUN FINE - IF YOU ARE RUNNING AN OLDER OPERATING SYSTEM - YOU MAY NEED TO DOWNLOAD SAPI FROM MICROSOFT.COM TO GET IT TO WORK. -->
+<!-- THIS IS A GREAT TASK TO SCHEDULE EVERY HOUR OR SO WHICH WILL IN ESSENCE CAUSE IT TO ACT AS A "TALKING CLOCK".  -->
+<!-- REMEMBER YOU CAN ALWAYS STOP A TASK IN PROGRESS BY PRESSING CTRL-ALT-END. PRESS OKAY TO CONTINUE RUNNING THE TASK OR CANCEL TO STOP NOW. -->
+<AMSHOWDIALOG WINDOWTITLE="Sample Task" BUTTONS="ok_cancel" ONSECONDBUTTONCLICK="stop" ICON="information">This is a sample task that says the time out loud using AutoMate's built-in support for speech synthesis.  
+
+If you are using Windows XP or newer it should run fine - if you are running an older operating system - you may need to download SAPI from microsoft.com to get it to work.
+
+This is a great task to schedule every hour or so which will in essence cause it to act as a "talking clock". 
+
+Remember you can always stop a task in progress by pressing CTRL-ALT-END. Press okay to continue running the task or Cancel to stop now.</AMSHOWDIALOG>
+<!-- SAY THE TIME. -->
+<AMSPEECH VOLUME="100" SPEED="50">The time is %Format(Time(),"h:mm am/pm")%</AMSPEECH>
 </AMFUNCTION>
 
 <AMFUNCTION NAME="OnStepStart" ACCESS="private">

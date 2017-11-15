@@ -28,7 +28,7 @@
    <AMCASE CONSTANT="Comics">
       <AMRUN FILE="G:\Comics" />
       <AMRUN FILE="K:\Комиксы" />
-      <AMRUN FILE="G:\Comics\1212.txt" />
+      <AMRUN FILE="K:\Комиксы\Список.txt" ASEXPLORER="YES" />
       <AMRUN FILE="C:\Program Files\CDisplayEx\CDisplayEx.exe" />
       <AMRUN FILE="C:\Program Files (x86)\Google\Chrome\Application\chrome.exe --profile-directory=Default --app-id=cbbipihhaanmdjaclfmpjfnnecifpjdn --window-size=&quot;800x600&quot;" />
    </AMCASE>

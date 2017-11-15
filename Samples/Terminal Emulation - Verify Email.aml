@@ -1,0 +1,80 @@
+<AMTASK>
+<AMTASKHEAD>
+    <TASKINFO TASKVERSION="10.0.0.40" />
+</AMTASKHEAD>
+
+<AMFUNCTION NAME="Main" ACCESS="private" RETURNTYPE="variable">
+<!-- ------------------------------------------------------------------ -->
+<!-- TASK DESCRIPTION: THIS SAMPLE TASK USES THE TERMINAL ACTIONS TO VERIFY AN E-MAIL ADDRESS WITHOUT HAVING TO SEND THE PERSON AN E-MAIL. -->
+<!-- ------------------------------------------------------------------ -->
+<AMVARIABLE NAME="VAR_EmailAddress" />
+<AMVARIABLE NAME="VAR_Index" />
+<AMVARIABLE NAME="VAR_ServerResponse" />
+<AMVARIABLE NAME="VAR_EmailServer" />
+<AMVARIABLE NAME="VAR_ConnectedServer" VALUE="1" />
+<!-- GET THE E-MAIL ADDRESS FROM THE USER -->
+<AMSHOWDIALOG ACTIVITY="input" MESSAGE="Please enter an email address to verify" RESULTVARIABLE="VAR_EmailAddress" />
+<!-- FIND THE DOMAIN NAME AND PARSE IT OUT.  WE'LL USE THIS AS THE E-MAIL SERVER. -->
+<AMTEXT TEXT="%VAR_EmailAddress%" FIND="@" RESULTVARIABLE="VAR_Index" />
+<AMTEXT ACTIVITY="get_substring" AM_ONERROR="CONTINUE" TEXT="%VAR_EmailAddress%" RESULTVARIABLE="VAR_EmailServer" STARTPOSITION="%VAR_Index + 1%" LENGTH="%len(VAR_EmailAddress)-VAR_Index%" />
+<!-- WE'RE GOING TO ASSUME THE E-MAIL SERVER IS NAMED "MAIL" ON THE DOMAIN. -->
+<AMVARIABLE ACTIVITY="set" VARIABLENAME="VAR_EmailServer">mail.%VAR_EmailServer%</AMVARIABLE>
+<AMTERMINAL AM_SETVAR="ConnectedToServer;0" AM_ONERROR="CONTINUE" HOST="%VAR_EmailServer%" SESSION="TerminalSession1" PORT="25" SHOWTERMINALWINDOW="YES" EMULATION="ansi" />
+<AMIF EXPRESSION="%VAR_ConnectedServer% = 1">
+   <AMWAIT SCALAR="3" />
+   <AMTERMINAL ACTIVITY="sendtext" SESSION="TerminalSession1" TEXT="mail from:you@you.com&#xD;&#xA;" />
+   <AMWAIT SCALAR="5" />
+   <AMTERMINAL ACTIVITY="sendtext" SESSION="TerminalSession1" TEXT="rcpt to:%VAR_EmailAddress%&#xD;&#xA;" />
+<AMELSE />
+   <AMSHOWDIALOG>%VAR_EmailServer% could not be contacted.  Please make sure the server name is correct.</AMSHOWDIALOG>
+</AMIF>
+<AMWAIT SCALAR="5" />
+<AMTERMINAL ACTIVITY="gettext" SESSION="TerminalSession1" RESULTVARIABLE="VAR_ServerResponse" />
+<!-- TEST IF THE TERMINAL RESPONSE HAS 550 IN IT (WHICH WOULD INDICATE AN ERROR). -->
+<AMIF ACTIVITY="contains_text" TEXT="%VAR_ServerResponse%" SUBSTRING="550">
+   <AMSHOWDIALOG>%VAR_EmailAddress%does not exist on server %VAR_EmailServer%</AMSHOWDIALOG>
+<AMELSE />
+   <AMSHOWDIALOG>%VAR_EmailAddress% is a valid e-mail address on server %VAR_EmailServer%</AMSHOWDIALOG>
+</AMIF>
+<AMTERMINAL ACTIVITY="disconnect" SESSION="TerminalSession1" />
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepStart" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is starting the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to execute" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepEnd" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is ending the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to end" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepError" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function with the error" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number of the error" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskFailure" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function causing the task failure" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number causing the task failure" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskStart" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is starting" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskEnd" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is ending" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+</AMTASK>

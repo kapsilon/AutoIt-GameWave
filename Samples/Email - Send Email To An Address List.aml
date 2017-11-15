@@ -1,31 +1,24 @@
 <AMTASK>
 <AMTASKHEAD>
-    <TASKINFO TASKVERSION="10.7.0.3" />
+    <TASKINFO TASKVERSION="10.0.0.40" />
 </AMTASKHEAD>
 
 <AMFUNCTION NAME="Main" ACCESS="private">
-<AMVARIABLE NAME="PauseTime" VALUE="250" TYPE="number" READONLY="YES" />
-<AMRUN FILE="C:\Program Files (x86)\SUMo\SUMo.exe" />
-<AMINPUT KEYSTROKES="{F5}" PREDELAY="5000" />
-<AMBROWSER URL="http://chromium.woolyss.com/#windows-64-bit" BROWSER="chrome" />
-<AMBROWSER URL="http://samlab.ws/category/samsoft/" BROWSER="chrome" />
-<AMRUN FILE="apm upgrade --confirm=false" />
-<!--
-<AMRUN FILE="C:\Users\Sergey\AppData\Local\atom\atom.exe" />
-   --><AMRUN FILE="npm update -g" />
-<AMRUN FILE="composer global update" />
-<!-- AMREGION="Steam" LENGTH="2" COLLAPSE="no" -->
-<!--
-<AMSERVICES SERVICE="Steam Client Service" />
-<AMRUN FILE="&quot;C:\Program Files (x86)\Steam\Steam.exe&quot;" />
-   --><!-- AMREGION="Kaspersky Software Update" LENGTH="7" COLLAPSE="no" -->
-<AMRUN FILE="C:\Program Files (x86)\Kaspersky Lab\Kaspersky Internet Security 18.0.0\avpui.exe" />
-<AMINPUT ACTIVITY="move_mouse" X="395" Y="503" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="102" Y="118" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="350" Y="269" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
+<!-- ------------------------------------------------------------------------------------------------------------------------------------ -->
+<!-- TASK DESCRIPTION:  THIS TASK WILL LOOP THROUGH THE CONTENTS OF A FILE WHICH INCLUDES A LIST OF EMAIL ADDRESSES (LINE DELIMITED). WITHIN EACH LOOP, AN EMAIL WILL BE SENT TO THE CURRENT EMAIL ADDRESS.
+
+NOTE:  IN ORDER FOR THIS SAMPLE TO WORK PROPERLY, YOU WIL NEED TO SPECIFY A DEFAULT EMAIL SERVER IN IN TASK ADMINISTRATOR, OR SPECIFY THE EMAIL SERVER 'SEND EMAIL' ACTION'S SERVER TAB.  YOU WILL ALSO HAVE TO EDIT THE EMAIL_LIST.TXT FILE BELOW TO REPLACE DUMMY EMAIL ADDRESS WITH REAL EMAIL ADDRESSES.
+ -->
+<!-- ------------------------------------------------------------------------------------------------------------------------------------ -->
+<AMVARIABLE NAME="theEmailList" />
+<AMVARIABLE NAME="theEmailAddress" />
+<!-- GETAUTOMATEDIRECTORY() IS A FUNCTION THAT RETURNS THE MAIN INSTALLATION DIRECTORY FOR AUTOMATE (E.G., C:\PROGRAM FILES\AUTOMATE 9).  ALL DATA FILES USED TO READ DATA IN TASK TEMPLATES TASKS ARE LOCATED IN THE %GETAUTOMATEDIRECTORY()%\SAMPLE TASK INPUT DATA\ DIRECTORY. -->
+<AMFILESYSTEM ACTIVITY="read_file" FILE="%GetAutoMateDirectory()%\Sample Task Input Data\email_list.txt" RESULTVARIABLE="theEmailList" />
+<AMLOOP ACTIVITY="list" LIST="%theEmailList%" DELIMITER="new_line" RESULTVARIABLE="theEmailAddress">
+   <AMSHOWDIALOG>The test email will be sent to this address:
+%theEmailAddress%</AMSHOWDIALOG>
+   <AMEMAIL ACTIVITY="send" FROM="user@email.com" TO="%theEmailAddress%" SUBJECT="test email" BODY="This is just a test." />
+</AMLOOP>
 </AMFUNCTION>
 
 <AMFUNCTION NAME="OnStepStart" ACCESS="private">

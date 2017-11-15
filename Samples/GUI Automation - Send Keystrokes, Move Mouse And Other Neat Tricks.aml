@@ -1,0 +1,99 @@
+<AMTASK>
+<AMTASKHEAD>
+    <TASKINFO TASKVERSION="10.0.0.40" />
+</AMTASKHEAD>
+
+<AMFUNCTION NAME="Main" ACCESS="private">
+<!-- ------------------------------------------------------------------------------------------------------------------------------------ -->
+<!-- GENERAL TASK NOTES: This sample task demonstrates: 
+1) Running a program 
+2) Sending keystrokes 
+3) Moving the mouse 
+4) Looping 
+5) Maximizing and Restoring Windows 
+And other neat tricks. 
+It is designed to show some of AutoMate's numerous functionalities. -->
+<!-- ------------------------------------------------------------------------------------------------------------------------------------ -->
+<AMSHOWDIALOG WINDOWTITLE="Sample Task" BUTTONS="ok_cancel" ONSECONDBUTTONCLICK="stop" ICON="information">This sample task demonstrates:
+1) Running a program
+2) Sending keystrokes
+3) Moving the mouse 
+4) Looping
+5) Maximizing and restoring windows
+
+and other neat tricks.  
+
+It is designed to show AutoMate functionality in use.  Remember you can always stop a task in progress by pressing CTRL-ALT-END. Press the OK button to continue running the task or Cancel to stop now.</AMSHOWDIALOG>
+<!-- Create the variable that will be used to store move mouse 
+loop count for use in move mouse action -->
+<AMVARIABLE NAME="movecoordinates" />
+<!--       Start notepad -->
+<AMRUN FILE="NOTEPAD.EXE " />
+<!--       Begin sending text to notepad, set to prevent user from 
+changing windows -->
+<AMINPUT METHOD="paste" LOCKKEYBOARD="YES">Welcome to AutoMate, the leading system automation platform for Windows.  As you can see, one of the many things AutoMate can do is send text to application windows.  
+</AMINPUT>
+<AMINPUT DELAYBETWEENKEYS="100" LOCKKEYBOARD="YES">
+Keystrokes can also be sent one by one like this.
+</AMINPUT>
+<AMINPUT METHOD="paste" LOCKKEYBOARD="YES">
+AutoMate can also move the mouse, like this...</AMINPUT>
+<AMWAIT SCALAR="3" />
+<AMINPUT ACTIVITY="block_input" />
+<AMLOOP FROM="1" TO="500" STEP="10" RESULTVARIABLE="movecoordinates">
+<AMINPUT ACTIVITY="move_mouse" X="0%movecoordinates%" Y="%movecoordinates%" />
+</AMLOOP>
+<!--       Give control back to user. -->
+<AMINPUT ACTIVITY="block_input" ACTION="unlock" />
+<AMINPUT METHOD="paste" LOCKKEYBOARD="YES">
+And manipulate application windows like this...
+</AMINPUT>
+<AMWAIT SCALAR="3" />
+<AMWINDOW ACTIVITY="maximize" WINDOWTITLE="Untitled - Notepad" />
+<AMWAIT SCALAR="1" />
+<AMWINDOW ACTIVITY="restore" WINDOWTITLE="Untitled - Notepad" />
+<AMWAIT SCALAR="1" />
+<AMINPUT METHOD="paste" LOCKKEYBOARD="YES">This is just the beginning, double click this task and select "Edit Steps" to see how it works.
+
+Enjoy!</AMINPUT>
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepStart" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is starting the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to execute" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepEnd" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is ending the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to end" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepError" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function with the error" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number of the error" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskFailure" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function causing the task failure" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number causing the task failure" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskStart" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is starting" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskEnd" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is ending" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+</AMTASK>

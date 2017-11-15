@@ -1,0 +1,76 @@
+<AMTASK>
+<AMTASKHEAD>
+    <TASKINFO TASKVERSION="10.0.0.40" />
+    <ATTACHMENTINFO ATTACHMENTID="{76DFDB55-EC7D-4CC6-AE54-0FBA70B934E4}" ATTACHMENTPATH="C:\Users\Administrator\Desktop\TEST.txt" ATTACHMENTNAME="TESTEXT" ATTACHMENTDATE="41793.4784295833" />
+</AMTASKHEAD>
+
+<AMFUNCTION NAME="Main" ACCESS="private">
+<!-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- TASK DESCRIPTION: THE FOLLOWING TASK WILL UPLOAD FILES TO A SERVER, DISPLAY THE DIRECTORY LISTING, THEN DELETE THAT SAME FILE AND DISPLAY THE LIST AGAIN THEN  LOGOFF
+
+NOTE: PLEASE MAKE THE APPROPRIATE CHANGES TO THE 'FTP LOGON' STEP BEFORE RUNNING THE TASK. ALSO, IF THE FILES YOU WANT TO SPECIFY ARE NOT LOCATED IN YOUR FTP SITE’S HOME DIRECTORY, AN 'FTP CHANGE FOLDER' ACTION MAY NEED TO BE CREATED TO SPECIFY THE CORRECT DIRECTORY.
+ -->
+<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<AMFTP ACTIVITY="logon" SERVER="INPUT INFORMATION" USERNAME="INPUT USERNAME" PASSWORD="AM4UToAf8UcQLKofhZCnEbQQQ==aME" PASSIVEMODE="yes" SESSION="FtpSession1" />
+<AMFTP ACTIVITY="upload" SESSION="FtpSession1" SOURCE="INPUT INFORMATION" DEST="%AMAttachment.TESTEXT%" TRANSFEROPTION="overwrite" />
+<AMFTP ACTIVITY="advanced" FTPCOMMAND="long_list" FTPLONGLISTDATASET="fileList" SESSION="FtpSession1" />
+<AMLOOP ACTIVITY="dataset" DATASET="fileList">
+   <AMSHOWDIALOG>File Name: %fileList.FTPFileName%
+File Size: %fileList.FTPFileSize%
+File Date: %fileList.FTPFileDate%
+file Type: %fileList.FTPFileType%</AMSHOWDIALOG>
+</AMLOOP>
+<AMFTP ACTIVITY="delete" SOURCE="INPUT INFORMATION FOR PATH/TEST.TXT" SESSION="FtpSession1" />
+<AMFTP ACTIVITY="advanced" FTPCOMMAND="long_list" FTPLONGLISTDATASET="fileList2" SESSION="FtpSession1" />
+<AMLOOP ACTIVITY="dataset" DATASET="fileList2">
+   <AMSHOWDIALOG>File Name: %fileList2.FTPFileName%
+File Size: %fileList2.FTPFileSize%
+File Date: %fileList2.FTPFileDate%
+file Type: %fileList2.FTPFileType%</AMSHOWDIALOG>
+</AMLOOP>
+<AMFTP ACTIVITY="logoff" SESSION="FtpSession1" />
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepStart" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is starting the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to execute" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepEnd" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is ending the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to end" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepError" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function with the error" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number of the error" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskFailure" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function causing the task failure" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number causing the task failure" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskStart" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is starting" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskEnd" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is ending" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+<ATTACHMENTSSET>
+<MIMEATTACHMENT ATTACHMENTID="{76DFDB55-EC7D-4CC6-AE54-0FBA70B934E4}" ATTACHMENTSIZE="8" />
+VEVTVA==
+</ATTACHMENTSSET>
+</AMTASK>

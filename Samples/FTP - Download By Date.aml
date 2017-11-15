@@ -1,0 +1,56 @@
+<AMTASK>
+<AMTASKHEAD>
+    <TASKINFO TASKVERSION="10.0.0.40" />
+</AMTASKHEAD>
+
+<AMFUNCTION NAME="Main" ACCESS="private">
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- TASK DESCRIPTION:  THIS TASK WILL DEMONSTRATE HOW AUTOMATE CAN DOWNLOAD A FILE VIA FTP THAT CONTAINS A DATE STRING IN THE NAME. AUTOMATE CREATS A DATE VARIABLE AND PASSES THE VARIABLE INTO AN FTP DOWNLOAD ACTION TO DOWNLOAD A FILE BY DATE. NOTE: THIS EXAMPLE USES A FILE THAT IS ASSUMED TO ALREADY EXIST. IF YOU HAVE NOT DONE SO, PLEASE MODIFY THIS TASK TO POINT TO A FILE WHICH ALREADY EXISTS ON THE SERVER. -->
+<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<AMSHOWDIALOG MESSAGE="This example uses a file that is assumed to already exist. If you have not done so, please click Cancel and modify this task to download a file which already exists on your system." WINDOWTITLE="Warning - - !" BUTTONS="ok_cancel" ONSECONDBUTTONCLICK="stop" ICON="exclamation" />
+<AMVARIABLE NAME="theMonthDay">%Format(Now, "mmdd")%</AMVARIABLE>
+<!-- GETTASKSDIRECTORY() IS A FUNCTION THAT RETURNS THE DEFAULT DIRECTORY FOR STORING AUTOMATE TASK FILES.  ALL DATA WRITTEN TO FILES BY TASK TEMPLATE TASKS IS STORED ON THE %GETTASKSDIRECTORY()%\SAMPLE TASK OUTPUT DATA\ DIRECTORY. -->
+<AMFTP ACTIVITY="logon" SERVER="ftp.domain.com" USERNAME="username" PASSWORD="AM2S0nYdJUXr7JMSdZ0lBe4sjtJuXTmF9yyaME" LOGFILE="%GetTasksDirectory()%\Sample Task Output Data\ftplog.log" SESSION="FtpSession1" />
+<AMFTP SESSION="FtpSession1" SOURCE="/test%theMonthDay%.txt" DEST="%GetTasksDirectory()%\Sample Task Output Data\test%theMonthDay%.txt" />
+<AMFTP ACTIVITY="logoff" SESSION="FtpSession1" />
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepStart" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is starting the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to execute" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepEnd" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is ending the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to end" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepError" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function with the error" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number of the error" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskFailure" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function causing the task failure" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number causing the task failure" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskStart" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is starting" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskEnd" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is ending" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+</AMTASK>

@@ -1,31 +1,25 @@
 <AMTASK>
 <AMTASKHEAD>
-    <TASKINFO TASKVERSION="10.7.0.3" />
+    <TASKINFO TASKVERSION="10.0.0.40" />
 </AMTASKHEAD>
 
 <AMFUNCTION NAME="Main" ACCESS="private">
-<AMVARIABLE NAME="PauseTime" VALUE="250" TYPE="number" READONLY="YES" />
-<AMRUN FILE="C:\Program Files (x86)\SUMo\SUMo.exe" />
-<AMINPUT KEYSTROKES="{F5}" PREDELAY="5000" />
-<AMBROWSER URL="http://chromium.woolyss.com/#windows-64-bit" BROWSER="chrome" />
-<AMBROWSER URL="http://samlab.ws/category/samsoft/" BROWSER="chrome" />
-<AMRUN FILE="apm upgrade --confirm=false" />
-<!--
-<AMRUN FILE="C:\Users\Sergey\AppData\Local\atom\atom.exe" />
-   --><AMRUN FILE="npm update -g" />
-<AMRUN FILE="composer global update" />
-<!-- AMREGION="Steam" LENGTH="2" COLLAPSE="no" -->
-<!--
-<AMSERVICES SERVICE="Steam Client Service" />
-<AMRUN FILE="&quot;C:\Program Files (x86)\Steam\Steam.exe&quot;" />
-   --><!-- AMREGION="Kaspersky Software Update" LENGTH="7" COLLAPSE="no" -->
-<AMRUN FILE="C:\Program Files (x86)\Kaspersky Lab\Kaspersky Internet Security 18.0.0\avpui.exe" />
-<AMINPUT ACTIVITY="move_mouse" X="395" Y="503" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="102" Y="118" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="350" Y="269" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
+<!-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- TASK BUILDER: THIS TASK WILL LOOP THROUGH A FOLDER AND CHECK FOR ANY FILES THAT ARE ZERO BYTES (OR EMPTY) USING THE FILELEN() FUNCTION, WHICH RETURNS THE SIZE OF THE FILE. AN IF CONDITIONAL IS USED TO EVALUATE WHETHER IT IS LESS THAN 1 BYTE IN SIZE. IF SO, A MESSAGE DIALOG WILL BE DISPLAYED STATING THE FILE SIZE IS ZERO BYTES.
+
+NOTE: MORE HELP ON FUNCTIONS CAN BE FOUND IN THE HELP DOC UNDER AUTOMATE -> REFERENCE -> BASIC SCRIPTING -> FUNCTIONS AND/OR EXTENDED FUNCTIONS.
+ -->
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<AMVARIABLE NAME="theFileName" />
+<!-- THE GETAUTOMATEDIRECTORY() FUNCTION RETURNS THE DEFAULT DIRECTORY OF THE CURRENT AUTOMATE INSTALLATION WHERE SAMPLE FILES ARE STORED. -->
+<AMVARIABLE NAME="theDirectory">%GetAutoMateDirectory()%\Sample Task Input Data</AMVARIABLE>
+<AMLOOP ACTIVITY="folder" FOLDER="%theDirectory%" RESULTVARIABLE="theFileName">
+   <AMIF EXPRESSION="%FileLen(theFileName)% &lt; 1">
+      <AMSHOWDIALOG>%theFileName% is zero bytes in size.</AMSHOWDIALOG>
+   <AMELSE />
+      <AMSHOWDIALOG>%theFileName% is NOT zero bytes in size (it is %FileLen(theFileName)% bytes).</AMSHOWDIALOG>
+   </AMIF>
+</AMLOOP>
 </AMFUNCTION>
 
 <AMFUNCTION NAME="OnStepStart" ACCESS="private">

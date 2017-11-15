@@ -1,31 +1,17 @@
 <AMTASK>
 <AMTASKHEAD>
-    <TASKINFO TASKVERSION="10.7.0.3" />
+    <TASKINFO TASKVERSION="10.0.0.40" />
+    <ATTACHMENTINFO ATTACHMENTID="{6D6345DF-43F0-433E-B054-6E5D572C1EBA}" ATTACHMENTPATH="C:\Users\Administrator\Desktop\Sample Task Input Data\Test.txt" ATTACHMENTNAME="SampleText" ATTACHMENTDATE="41528.4522338079" />
 </AMTASKHEAD>
 
-<AMFUNCTION NAME="Main" ACCESS="private">
-<AMVARIABLE NAME="PauseTime" VALUE="250" TYPE="number" READONLY="YES" />
-<AMRUN FILE="C:\Program Files (x86)\SUMo\SUMo.exe" />
-<AMINPUT KEYSTROKES="{F5}" PREDELAY="5000" />
-<AMBROWSER URL="http://chromium.woolyss.com/#windows-64-bit" BROWSER="chrome" />
-<AMBROWSER URL="http://samlab.ws/category/samsoft/" BROWSER="chrome" />
-<AMRUN FILE="apm upgrade --confirm=false" />
-<!--
-<AMRUN FILE="C:\Users\Sergey\AppData\Local\atom\atom.exe" />
-   --><AMRUN FILE="npm update -g" />
-<AMRUN FILE="composer global update" />
-<!-- AMREGION="Steam" LENGTH="2" COLLAPSE="no" -->
-<!--
-<AMSERVICES SERVICE="Steam Client Service" />
-<AMRUN FILE="&quot;C:\Program Files (x86)\Steam\Steam.exe&quot;" />
-   --><!-- AMREGION="Kaspersky Software Update" LENGTH="7" COLLAPSE="no" -->
-<AMRUN FILE="C:\Program Files (x86)\Kaspersky Lab\Kaspersky Internet Security 18.0.0\avpui.exe" />
-<AMINPUT ACTIVITY="move_mouse" X="395" Y="503" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="102" Y="118" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="350" Y="269" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
+<AMFUNCTION NAME="Main" ACCESS="private" RETURNTYPE="variable">
+<!-- ------------------------------------------------------------------ -->
+<!-- TASK DESCRIPTION: THIS TASK READS FROM THE ATTCHED TEXT FILE, AND THEREAFTER, OPENS THE SELECTED  TEXT FILE AND SHOWS ITS CONTENTS IN A DIALOG BOX.   -->
+<!-- ------------------------------------------------------------------ -->
+<!-- ONLY TEXT FILES ARE COMPATIBLE WITH  AUTOMATE'S 'READ FROM FILE' ACTION. -->
+<AMVARIABLE NAME="VAR_Data" />
+<AMFILESYSTEM ACTIVITY="read_file" FILE="%AMAttachment.SampleText%" RESULTVARIABLE="VAR_Data" />
+<AMSHOWDIALOG>%VAR_Data%</AMSHOWDIALOG>
 </AMFUNCTION>
 
 <AMFUNCTION NAME="OnStepStart" ACCESS="private">
@@ -66,4 +52,8 @@
 
 </AMFUNCTION>
 
+<ATTACHMENTSSET>
+<MIMEATTACHMENT ATTACHMENTID="{6D6345DF-43F0-433E-B054-6E5D572C1EBA}" ATTACHMENTSIZE="8" />
+VGVzdA==
+</ATTACHMENTSSET>
 </AMTASK>

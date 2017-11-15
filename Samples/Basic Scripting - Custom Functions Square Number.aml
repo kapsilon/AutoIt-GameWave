@@ -1,0 +1,77 @@
+<AMTASK>
+<AMTASKHEAD>
+    <TASKINFO TASKVERSION="10.0.0.40" />
+</AMTASKHEAD>
+
+<AMFUNCTION NAME="Main" ACCESS="private" RETURNTYPE="variable">
+<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- TASK DESCRIPTION: THIS TASK ILLUSTRATES THE USE OF CUSTOM BASIC FUNCTIONS. -->
+<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!--       SHOW MESSAGE BOX TELLING THE USER WHAT IS GOING ON -->
+<AMSHOWDIALOG WINDOWTITLE="Sample Task" BUTTONS="ok_cancel" ONSECONDBUTTONCLICK="stop" ICON="information">This sample task demonstrates the following:
+1) Use of the Input Action to ask the user a question and retrieve the answer
+2) Use of Custom BASIC Functions
+3) Use of the IF action
+4) Use of Expressions
+
+Remember you can always stop a task in progress by pressing CTRL-ALT-END. Press okay to continue running the task or Cancel to stop now.</AMSHOWDIALOG>
+<!--              CREATE VARIABLE TO STORE ANSWER FROM INPUT BOX. -->
+<AMVARIABLE NAME="theanswer" />
+<!--  THIS CUSTOM FUNCTION TAKES A NUMBER, SQUARES IT, AND RETURNS 
+THE RESULT.
+ -->
+<AMSCRIPT>Function SquareNumber(thenum) 
+	SquareNumber = thenum * thenum
+End Function</AMSCRIPT>
+<!--              INPUT BOX WILL ASK WHAT NUMBER USER WOULD LIKE TO SQUARE. -->
+<AMSHOWDIALOG ACTIVITY="input" MESSAGE="What number would you like to square?" RESULTVARIABLE="theanswer" />
+<!--             MAKE SURE THAT THE VALUE ENTERED IS A VALID NUMBER. -->
+<AMIF EXPRESSION="IsNumeric(theanswer) = true">
+<!--              DISPLAY RESULT OF ANSWER SEND TO OUR CUSTOM FUNCTION. -->
+   <AMSHOWDIALOG>The number %theanswer% squared  is:
+%SquareNumber(theanswer)%</AMSHOWDIALOG>
+<AMELSE />
+<!--             TELL THE USER AN INVALID ENTRY WAS ENTERED. -->
+   <AMSHOWDIALOG>The text "%theanswer%" is not a valid number.  Please re-run and enter a valid number.</AMSHOWDIALOG>
+</AMIF>
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepStart" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is starting the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to execute" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepEnd" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is ending the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to end" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepError" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function with the error" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number of the error" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskFailure" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function causing the task failure" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number causing the task failure" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskStart" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is starting" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskEnd" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is ending" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+</AMTASK>

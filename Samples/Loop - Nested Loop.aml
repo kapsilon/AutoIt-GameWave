@@ -1,31 +1,22 @@
 <AMTASK>
 <AMTASKHEAD>
-    <TASKINFO TASKVERSION="10.7.0.3" />
+    <TASKINFO TASKVERSION="10.0.0.40" />
 </AMTASKHEAD>
 
 <AMFUNCTION NAME="Main" ACCESS="private">
-<AMVARIABLE NAME="PauseTime" VALUE="250" TYPE="number" READONLY="YES" />
-<AMRUN FILE="C:\Program Files (x86)\SUMo\SUMo.exe" />
-<AMINPUT KEYSTROKES="{F5}" PREDELAY="5000" />
-<AMBROWSER URL="http://chromium.woolyss.com/#windows-64-bit" BROWSER="chrome" />
-<AMBROWSER URL="http://samlab.ws/category/samsoft/" BROWSER="chrome" />
-<AMRUN FILE="apm upgrade --confirm=false" />
-<!--
-<AMRUN FILE="C:\Users\Sergey\AppData\Local\atom\atom.exe" />
-   --><AMRUN FILE="npm update -g" />
-<AMRUN FILE="composer global update" />
-<!-- AMREGION="Steam" LENGTH="2" COLLAPSE="no" -->
-<!--
-<AMSERVICES SERVICE="Steam Client Service" />
-<AMRUN FILE="&quot;C:\Program Files (x86)\Steam\Steam.exe&quot;" />
-   --><!-- AMREGION="Kaspersky Software Update" LENGTH="7" COLLAPSE="no" -->
-<AMRUN FILE="C:\Program Files (x86)\Kaspersky Lab\Kaspersky Internet Security 18.0.0\avpui.exe" />
-<AMINPUT ACTIVITY="move_mouse" X="395" Y="503" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="102" Y="118" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="350" Y="269" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- TASK DESCRIPTION:  THIS SAMPLE TASK DEMONSTRATES THE USE OF NESTED LOOPS.  
+THERE ARE 2 LOOPS, ONE IS EMBEDDED INSIDE THE OTHER.  
+EACH LOOP WILL EXECUTE 3 CYCLES. WITHIN EACH LOOP PARENT LOOP, THE NESTED LOOP CYCLES 3 TIMES. -->
+<!-- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<AMVARIABLE NAME="counter1" />
+<AMVARIABLE NAME="counter2" />
+<AMLOOP FROM="1" TO="3" RESULTVARIABLE="counter1">
+   <AMLOOP FROM="1" TO="3" RESULTVARIABLE="counter2">
+      <AMSHOWDIALOG BUTTONS="ok_cancel" ONSECONDBUTTONCLICK="stop">Parent loop is currently %counter1% of 3
+Nested loop is currently %counter2% of 3</AMSHOWDIALOG>
+   </AMLOOP>
+</AMLOOP>
 </AMFUNCTION>
 
 <AMFUNCTION NAME="OnStepStart" ACCESS="private">

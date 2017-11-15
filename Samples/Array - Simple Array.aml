@@ -1,0 +1,73 @@
+<AMTASK>
+<AMTASKHEAD>
+    <TASKINFO TASKVERSION="10.0.0.40" />
+    <ATTACHMENTINFO ATTACHMENTID="{F527B7F0-209A-4649-A17B-02FB35950704}" ATTACHMENTPATH="C:\Program Files\AutoMate 10\Sample Task Input Data\array_list.txt" ATTACHMENTNAME="ArrayText" ATTACHMENTDATE="41794.3166447801" />
+</AMTASKHEAD>
+
+<AMFUNCTION NAME="Main" ACCESS="private" RETURNTYPE="variable">
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
+<!-- TASK DESCRIPTION: THIS TASK READ FROM A FILE LINE BY LINE, AND CREATE A SIMPLE ARRAY BASED ON EACH LINE'S CONTENTS. -->
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ -->
+<!-- -- ESTABLISH VARIABLES --  -->
+<!-- PLEASE NOTE: THE GETAUTOMATEDIRECTORY() FUNCTION PROVIDES THE DEFAULT DIRECTORY OF THE CURRENT AUTOMATE INSTALLATION WHERE SAMPLE FILES ARE STORED. -->
+<AMVARIABLE NAME="theDirectory">%AMAttachment.ArrayText%</AMVARIABLE>
+<AMVARIABLE NAME="theData"></AMVARIABLE>
+<AMARRAY NAME="theArray" ROWS="100" />
+<AMVARIABLE NAME="theLine"></AMVARIABLE>
+<AMVARIABLE NAME="theCounter">0</AMVARIABLE>
+<!-- READ AND STORE DATA FOR LOOP PROCESS -->
+<AMFILESYSTEM ACTIVITY="read_file" FILE="%AMAttachment.ArrayText%" RESULTVARIABLE="theData" />
+<!-- FIRST  LOOP  -->
+<AMLOOP ACTIVITY="list" TYPE="LIST" LIST="%theData%" RESULTVARIABLE="theLine" DELIMITER="new_line">
+   <AMVARIABLE ACTIVITY="increment" RESULTVARIABLE="theCounter" />
+   <AMVARIABLE ACTIVITY="set" VARIABLENAME="theArray(%theCounter%)">%theLine%</AMVARIABLE>
+</AMLOOP>
+<!-- SECOND  LOOP  -->
+<AMLOOP TOTALLOOPS="%theCounter%" RESULTVARIABLE="theCounter" FROM="1" TO="%theCounter%">
+   <AMSHOWDIALOG WINDOWTITLE="Array Contents">theArray(%theCounter%) is %theArray(theCounter)%</AMSHOWDIALOG>
+</AMLOOP>
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepStart" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is starting the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to execute" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepEnd" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is ending the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to end" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepError" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function with the error" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number of the error" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskFailure" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function causing the task failure" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number causing the task failure" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskStart" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is starting" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskEnd" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is ending" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+<ATTACHMENTSSET>
+<MIMEATTACHMENT ATTACHMENTID="{F527B7F0-209A-4649-A17B-02FB35950704}" ATTACHMENTSIZE="60" />
+U2NvdHQNCkpvZQ0KRHVzdGluDQpCcmFkDQpSb25haw0KTmF0aGFsaWUNCg==
+</ATTACHMENTSSET>
+</AMTASK>

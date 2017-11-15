@@ -1,31 +1,29 @@
 <AMTASK>
 <AMTASKHEAD>
-    <TASKINFO TASKVERSION="10.7.0.3" />
+    <TASKINFO TASKVERSION="10.0.0.40" />
 </AMTASKHEAD>
 
-<AMFUNCTION NAME="Main" ACCESS="private">
-<AMVARIABLE NAME="PauseTime" VALUE="250" TYPE="number" READONLY="YES" />
-<AMRUN FILE="C:\Program Files (x86)\SUMo\SUMo.exe" />
-<AMINPUT KEYSTROKES="{F5}" PREDELAY="5000" />
-<AMBROWSER URL="http://chromium.woolyss.com/#windows-64-bit" BROWSER="chrome" />
-<AMBROWSER URL="http://samlab.ws/category/samsoft/" BROWSER="chrome" />
-<AMRUN FILE="apm upgrade --confirm=false" />
-<!--
-<AMRUN FILE="C:\Users\Sergey\AppData\Local\atom\atom.exe" />
-   --><AMRUN FILE="npm update -g" />
-<AMRUN FILE="composer global update" />
-<!-- AMREGION="Steam" LENGTH="2" COLLAPSE="no" -->
-<!--
-<AMSERVICES SERVICE="Steam Client Service" />
-<AMRUN FILE="&quot;C:\Program Files (x86)\Steam\Steam.exe&quot;" />
-   --><!-- AMREGION="Kaspersky Software Update" LENGTH="7" COLLAPSE="no" -->
-<AMRUN FILE="C:\Program Files (x86)\Kaspersky Lab\Kaspersky Internet Security 18.0.0\avpui.exe" />
-<AMINPUT ACTIVITY="move_mouse" X="395" Y="503" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="102" Y="118" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
-<AMINPUT ACTIVITY="move_mouse" X="350" Y="269" DELAY="%PauseTime%" />
-<AMINPUT ACTIVITY="click_mouse" />
+<AMFUNCTION NAME="Main" ACCESS="private" RETURNTYPE="variable">
+<!-- ------------------------------------------------------------------ -->
+<!-- TASK DESCRIPTION: THIS TASK SHOWS HOW TO CONVERT TEXT INTO THE SPOKEN WORD. -->
+<!-- ------------------------------------------------------------------ -->
+<!-- CREATE VARIABLE TO STORE USERS ANSWER -->
+<AMVARIABLE NAME="VAR_Text" />
+<AMSHOWDIALOG WINDOWTITLE="Sample Task" BUTTONS="ok_cancel" ICON="information" ONSECONDBUTTONCLICK="stop">This sample task demonstrates the following:
+1) Use of the Input Action to ask the user a question, retrieve the answer and use it in another step
+2) Use of the Speak action (text to speech)
+
+Remember you can always stop a task in progress by pressing CTRL-ALT-END. Press okay to continue running the task or Cancel to stop now.</AMSHOWDIALOG>
+<!-- ASK THE USER WHAT TO SAY -->
+<AMSHOWDIALOG ACTIVITY="input" RESULTVARIABLE="VAR_Text" WINDOWTITLE="Speak">(please note, on older operating systems SAPI must be installed for this to function)
+What would you like AutoMate to say?
+</AMSHOWDIALOG>
+<!-- SAY IT -->
+<AMSPEECH VOLUME="100" SPEED="50">Okay fine, I will say it just for you.
+
+%VAR_Text%.
+
+Cool isn't it?  </AMSPEECH>
 </AMFUNCTION>
 
 <AMFUNCTION NAME="OnStepStart" ACCESS="private">

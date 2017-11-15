@@ -1,0 +1,79 @@
+<AMTASK>
+<AMTASKHEAD>
+    <TASKINFO TASKVERSION="10.0.0.40" />
+</AMTASKHEAD>
+
+<AMFUNCTION NAME="Main" ACCESS="private" RETURNTYPE="variable">
+<!-- ------------------------------------------------------------------ -->
+<!-- TASK DESCRIPTION: THIS SAMPLE TASK WILL IDENTIFY SOME IMPORTANT TASK-RELATED INFORMATION THAT CAN BE CAPTURED DURING RUNTIME. THE INFORMATION WILL BE ILLUSTRATED WITHIN THREE SEPARATE DIALOG BOXES. THIS TASK USES A NUMBER OF AUTOMATE EXTENDED FUNCTIONS WHICH IS REFERENCED ALONG WITH THE SPECIFIED TASK INFORMATION.  -->
+<!-- ------------------------------------------------------------------ -->
+<!-- FUNCTIONS CAN BE FOUND IN THE AUTOMATE HELP DOC BY NAVIGATING TO CONTENTS -> AUTOMATE -> REFERENCE -> BASIC SCRIPTING -> FUNCTIONS.
+ -->
+<AMSHOWDIALOG WINDOWTITLE="Currently running task information" BUTTONS="ok_cancel" ONSECONDBUTTONCLICK="stop" COUNTDOWNDELAY="15">The NAME of this task is: "%GetTaskName()%"
+
+The unique ID NUMBER automatically assigned to this task is: "%TaskId()%"
+
+The DIRECTORY where this task resides is: "%GetTasksDirectory()%"
+
+The LINE NUMBER currently being executed is: "%GetCurrentLineNumber()%"</AMSHOWDIALOG>
+<!-- THE NEXT MESSAGE BOX WILL SHOW THE LAST STEP'S (STEP #6) TOTAL EXECUTION TIME IN MILLISECONDS, SECONDS AND MINUTES. -->
+<AMWAIT SCALAR="3" />
+<AMSHOWDIALOG WINDOWTITLE="Last Step Execution Time" BUTTONS="ok_cancel" ONSECONDBUTTONCLICK="stop" COUNTDOWNDELAY="10">The total execution time of the last step was:
+
+%GetLastStepExecutionTimeMS()% Milliseconds
+Or
+%GetLastStepExecutionTimeSec()% Seconds
+Or
+%GetLastStepExecutionTimeMin()% Minutes</AMSHOWDIALOG>
+<AMWAIT SCALAR="2" />
+<AMSHOWDIALOG WINDOWTITLE="Task execution time" BUTTONS="ok_cancel" ONSECONDBUTTONCLICK="stop" COUNTDOWNDELAY="10">The total execution time of this task was:
+
+%GetTaskExecutionTimeMS()% Milliseconds
+Or
+%GetTaskExecutionTimeSec()% Seconds
+Or
+%GetTaskExecutionTimeMin()% Minutes
+
+...depending on how accurate you want to be
+</AMSHOWDIALOG>
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepStart" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is starting the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to execute" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepEnd" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function that is ending the step" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number that is about to end" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnStepError" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function with the error" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number of the error" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskFailure" ACCESS="private">
+<AMPARAMETER NAME="FunctionName" DESCRIPTION="The function causing the task failure" SUBTYPE="text" />
+<AMPARAMETER NAME="StepNumber" DESCRIPTION="The step number causing the task failure" SUBTYPE="number" />
+<AMPARAMETER NAME="ErrorText" DESCRIPTION="The text of the error" SUBTYPE="text" />
+<AMPARAMETER NAME="ErrorCode" DESCRIPTION="The code of the error" SUBTYPE="number" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskStart" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is starting" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+<AMFUNCTION NAME="OnTaskEnd" ACCESS="private">
+<AMPARAMETER NAME="Reason" DESCRIPTION="The reason the task is ending" SUBTYPE="text" />
+
+</AMFUNCTION>
+
+</AMTASK>
